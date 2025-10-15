@@ -1,0 +1,112 @@
+@page
+@model CarStore.WebUI.Areas.Admin.Pages.Cars.CreateModel
+@{
+    ViewData["Title"] = "Thêm Xe Mới";
+}
+
+<div class="animate__animated animate__fadeIn">
+    <div class="mb-6">
+        <a asp-page="./Index" class="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 px-8 py-6">
+            <h1 class="text-2xl font-bold text-white">
+                <i class="fas fa-plus-circle mr-3"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-purple-100 mt-1">Thêm xe mới vào kho hàng</p>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-8">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded"></div>
+
+                <!-- Basic Info Section -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-purple-600 mr-2"></i>Thông Tin Cơ Bản
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="Car.Brand" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-tag mr-2 text-gray-500"></i>Hãng xe
+                            </label>
+                            <input asp-for="Car.Brand" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="VD: Toyota, Honda..." />
+                            <span asp-validation-for="Car.Brand" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Car.Model" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-car mr-2 text-gray-500"></i>Dòng xe
+                            </label>
+                            <input asp-for="Car.Model" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="VD: Camry, Civic..." />
+                            <span asp-validation-for="Car.Model" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Car.Year" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-calendar mr-2 text-gray-500"></i>Năm sản xuất
+                            </label>
+                            <input asp-for="Car.Year" type="number" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="2024" />
+                            <span asp-validation-for="Car.Year" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Car.Price" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-dollar-sign mr-2 text-gray-500"></i>Giá bán (VNĐ)
+                            </label>
+                            <input asp-for="Car.Price" type="number" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="500000000" />
+                            <span asp-validation-for="Car.Price" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inventory Section -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-warehouse text-purple-600 mr-2"></i>Kho Hàng & Hình Ảnh
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label asp-for="Car.Stock" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-boxes mr-2 text-gray-500"></i>Số lượng tồn kho
+                            </label>
+                            <input asp-for="Car.Stock" type="number" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="10" />
+                            <span asp-validation-for="Car.Stock" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                        <div>
+                            <label asp-for="Car.ImageUrl" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-image mr-2 text-gray-500"></i>URL hình ảnh
+                            </label>
+                            <input asp-for="Car.ImageUrl" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="https://..." />
+                            <span asp-validation-for="Car.ImageUrl" class="text-sm text-red-600 mt-1 block"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="mb-8">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-file-alt text-purple-600 mr-2"></i>Mô Tả Chi Tiết
+                    </h2>
+                    <label asp-for="Car.Description" class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-align-left mr-2 text-gray-500"></i>Mô tả sản phẩm
+                    </label>
+                    <textarea asp-for="Car.Description" rows="5" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all outline-none" placeholder="Nhập mô tả chi tiết về xe..."></textarea>
+                    <span asp-validation-for="Car.Description" class="text-sm text-red-600 mt-1 block"></span>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end gap-4 pt-6 border-t">
+                    <a asp-page="./Index" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg transition duration-300">
+                        <i class="fas fa-times mr-2"></i>Hủy
+                    </a>
+                    <button type="submit" class="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        <i class="fas fa-plus-circle mr-2"></i>Tạo Mới
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,62 @@
+@using System.Security.Claims
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="flex items-center space-x-4">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-area="Admin" asp-page="/Cars/Index" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white font-semibold px-4 py-2 rounded-lg transition-all">
+                <i class="fas fa-shield-alt mr-2"></i>Admin Panel
+            </a>
+        }
+
+        <div x-data="{ open: false }" class="relative">
+            <button @@click="open = !open" class="flex items-center bg-white bg-opacity-20 hover:bg-opacity-30 text-white px-4 py-2 rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+                <div class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-2 font-bold">
+                    @User.FindFirstValue("FullName")?.Substring(0, 1).ToUpper()
+                </div>
+                <span class="font-semibold">@User.FindFirstValue("FullName")</span>
+                <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            <div x-show="open" 
+                 @@click.away="open = false"
+                 x-transition:enter="transition ease-out duration-100"
+                 x-transition:enter-start="transform opacity-0 scale-95"
+                 x-transition:enter-end="transform opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-75"
+                 x-transition:leave-start="transform opacity-100 scale-100"
+                 x-transition:leave-end="transform opacity-0 scale-95"
+                 class="absolute right-0 mt-3 w-64 bg-white rounded-xl shadow-2xl py-2 z-50 border border-gray-100"
+                 style="display: none;">
+                <div class="px-4 py-3 border-b border-gray-100">
+                    <p class="text-sm text-gray-500">Đăng nhập với</p>
+                    <p class="text-sm font-semibold text-gray-800 truncate">@User.FindFirstValue(ClaimTypes.Name)</p>
+                </div>
+                <a asp-page="/Orders/MyOrders" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                    <i class="fas fa-receipt w-8 text-blue-600"></i>
+                    <span class="font-medium">Đơn Hàng Của Tôi</span>
+                </a>
+                <a asp-page="/TestDrives/MyTestDrives" class="flex items-center px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors">
+                    <i class="fas fa-calendar-check w-8 text-green-600"></i>
+                    <span class="font-medium">Lịch Lái Thử</span>
+                </a>
+                <div class="border-t border-gray-100 mt-2"></div>
+                <form asp-page="/Users/Logout" method="post" class="w-full">
+                    <button type="submit" class="w-full flex items-center px-4 py-3 text-red-600 hover:bg-red-50 transition-colors">
+                        <i class="fas fa-sign-out-alt w-8"></i>
+                        <span class="font-medium">Đăng Xuất</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <a class="text-white hover:text-blue-200 font-semibold transition-colors" asp-area="" asp-page="/Users/Register">
+        <i class="fas fa-user-plus mr-1"></i>Đăng Ký
+    </a>
+    <a class="bg-white text-blue-700 hover:bg-blue-50 font-bold py-2 px-6 rounded-lg transition-all shadow-md hover:shadow-lg" asp-area="" asp-page="/Users/Login">
+        <i class="fas fa-sign-in-alt mr-2"></i>Đăng Nhập
+    </a>
+}

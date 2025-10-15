@@ -1,0 +1,47 @@
+@using System.Security.Claims
+
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <div class="border-t border-blue-700 pt-4 mt-2">
+        <div class="bg-blue-900 bg-opacity-50 rounded-lg p-3 mb-3">
+            <p class="text-white font-bold flex items-center">
+                <div class="bg-blue-500 text-white w-8 h-8 rounded-full flex items-center justify-center mr-2 text-sm">
+                    @User.FindFirstValue("FullName")?.Substring(0, 1).ToUpper()
+                </div>
+                @User.FindFirstValue("FullName")
+            </p>
+            <p class="text-blue-200 text-xs mt-1">@User.FindFirstValue(ClaimTypes.Name)</p>
+        </div>
+        
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-area="Admin" asp-page="/Cars/Index" class="flex items-center py-3 text-white hover:text-blue-200 border-b border-blue-700">
+                <i class="fas fa-shield-alt mr-3 w-5"></i>Admin Panel
+            </a>
+        }
+        
+        <a asp-page="/Orders/MyOrders" class="flex items-center py-3 text-white hover:text-blue-200 border-b border-blue-700">
+            <i class="fas fa-receipt mr-3 w-5"></i>Đơn Hàng Của Tôi
+        </a>
+        <a asp-page="/TestDrives/MyTestDrives" class="flex items-center py-3 text-white hover:text-blue-200 border-b border-blue-700">
+            <i class="fas fa-calendar-check mr-3 w-5"></i>Lịch Lái Thử
+        </a>
+        
+        <form asp-page="/Users/Logout" method="post" class="mt-2">
+            <button type="submit" class="w-full flex items-center py-3 text-red-300 hover:text-red-100 font-semibold">
+                <i class="fas fa-sign-out-alt mr-3 w-5"></i>Đăng Xuất
+            </button>
+        </form>
+    </div>
+}
+else
+{
+     <div class="border-t border-blue-700 pt-4 mt-2 space-y-2">
+        <a class="block py-3 text-white hover:text-blue-200 border-b border-blue-700" asp-area="" asp-page="/Users/Register">
+            <i class="fas fa-user-plus mr-3"></i>Đăng Ký
+        </a>
+        <a class="block py-3 text-white hover:text-blue-200" asp-area="" asp-page="/Users/Login">
+            <i class="fas fa-sign-in-alt mr-3"></i>Đăng Nhập
+        </a>
+    </div>
+}

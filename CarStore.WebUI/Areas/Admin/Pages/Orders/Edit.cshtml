@@ -1,0 +1,95 @@
+@page "{id:int}"
+@model CarStore.WebUI.Areas.Admin.Pages.Orders.EditModel
+@{
+    ViewData["Title"] = "Chỉnh Sửa Đơn Hàng";
+}
+
+<div class="animate__animated animate__fadeIn">
+    <div class="mb-6">
+        <a asp-page="./Index" class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+            <h1 class="text-2xl font-bold text-white">
+                <i class="fas fa-edit mr-3"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-blue-100 mt-1">Cập nhật trạng thái đơn hàng #@Model.Order.OrderId</p>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-8">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded"></div>
+                <input type="hidden" asp-for="Input.OrderId" />
+
+                <!-- Order Info -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>Thông Tin Đơn Hàng
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-user text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Khách hàng</p>
+                                <p class="font-semibold text-gray-800">@Model.Order.User.FullName</p>
+                                <p class="text-xs text-gray-600">@Model.Order.User.Email</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-car text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Xe</p>
+                                <p class="font-semibold text-gray-800">@Model.Order.Car.Brand @Model.Order.Car.Model</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-calendar text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Ngày đặt</p>
+                                <p class="font-semibold text-gray-800">@Model.Order.OrderDate?.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-money-bill-wave text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Tổng tiền</p>
+                                <p class="font-bold text-blue-600 text-lg">@Model.Order.TotalAmount.ToString("C0")</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status Selection -->
+                <div class="mb-8">
+                    <label asp-for="Input.Status" class="block text-sm font-bold text-gray-700 mb-3">
+                        <i class="fas fa-tasks mr-2 text-blue-600"></i>Trạng Thái Đơn Hàng
+                    </label>
+                    <select asp-for="Input.Status" asp-items="Model.StatusOptions" class="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all text-base font-semibold">
+                    </select>
+                    <span asp-validation-for="Input.Status" class="text-red-600 text-sm mt-1 block"></span>
+                    <div class="mt-3 bg-blue-50 border-l-4 border-blue-500 p-4 rounded">
+                        <p class="text-sm text-blue-700">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Lưu ý:</strong> Thay đổi trạng thái đơn hàng sẽ ảnh hưởng đến quản lý kho và báo cáo doanh thu.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end gap-4 pt-6 border-t">
+                    <a asp-page="./Index" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg transition duration-300">
+                        <i class="fas fa-times mr-2"></i>Hủy
+                    </a>
+                    <button type="submit" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        <i class="fas fa-save mr-2"></i>Lưu Thay Đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

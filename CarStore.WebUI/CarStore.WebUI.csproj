@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\CarStore.BLL\CarStore.BLL.csproj" />
+    <!-- CarStore.BO is transitively referenced through CarStore.BLL -->
+  </ItemGroup>
+
+  <!-- No EF Core packages here - all database packages are in DAL layer -->
+
+  <ItemGroup>
+    <Content Remove="node_modules\**" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+</Project>

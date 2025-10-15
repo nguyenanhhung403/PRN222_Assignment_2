@@ -1,0 +1,127 @@
+@page
+@model CarStore.WebUI.Pages.Cars.IndexModel
+@{
+    ViewData["Title"] = "Our Collection";
+}
+
+<div class="animate__animated animate__fadeIn" x-data="{ priceFilter: 'all', brandFilter: 'all' }">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6 text-sm">
+        <a asp-page="/Index" class="text-blue-600 hover:underline">Trang Chủ</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600">Bộ Sưu Tập Xe</span>
+    </nav>
+
+    <!-- Header with Search -->
+    <div class="mb-10">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 mb-4">Bộ Sưu Tập Xe Của Chúng Tôi</h1>
+            <p class="text-lg text-gray-600 max-w-2xl mx-auto">Khám phá những mẫu xe cao cấp được tuyển chọn. Chất lượng và hiệu suất trong từng chi tiết.</p>
+        </div>
+
+        <!-- Filters -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-filter mr-2 text-blue-600"></i>Lọc theo giá
+                    </label>
+                    <select x-model="priceFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="all">Tất cả mức giá</option>
+                        <option value="low">Dưới 1 tỷ</option>
+                        <option value="medium">1 - 2 tỷ</option>
+                        <option value="high">Trên 2 tỷ</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        <i class="fas fa-car mr-2 text-blue-600"></i>Lọc theo hãng
+                    </label>
+                    <select x-model="brandFilter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="all">Tất cả hãng xe</option>
+                        @foreach (var brand in Model.Cars.Select(c => c.Brand).Distinct().OrderBy(b => b))
+                        {
+                            <option value="@brand">@brand</option>
+                        }
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button @@click="priceFilter = 'all'; brandFilter = 'all'" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-lg transition duration-300">
+                        <i class="fas fa-redo mr-2"></i>Đặt lại
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Cars.Any())
+    {
+        <!-- Results Count -->
+        <div class="mb-6 text-gray-600">
+            <i class="fas fa-car-side mr-2"></i>
+            <span class="font-semibold">@Model.Cars.Count()</span> xe có sẵn
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach (var car in Model.Cars)
+            {
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300"
+                     x-show="(priceFilter === 'all' || 
+                              (priceFilter === 'low' && @car.Price < 1000000000) || 
+                              (priceFilter === 'medium' && @car.Price >= 1000000000 && @car.Price < 2000000000) || 
+                              (priceFilter === 'high' && @car.Price >= 2000000000)) &&
+                             (brandFilter === 'all' || brandFilter === '@car.Brand')"
+                     x-transition>
+                    <div class="relative overflow-hidden">
+                        <img class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500" src="@(car.ImageUrl ?? "https://via.placeholder.com/400x250")" alt="Image of @car.Brand @car.Model">
+                        <div class="absolute top-4 right-4">
+                            @if (car.Stock > 0)
+                            {
+                                <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-check-circle mr-1"></i>Còn hàng
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                                    <i class="fas fa-times-circle mr-1"></i>Hết hàng
+                                </span>
+                            }
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="mb-3">
+                            <span class="text-sm font-semibold text-blue-600 bg-blue-50 px-3 py-1 rounded-full">
+                                @car.Brand
+                            </span>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors">
+                            @car.Model
+                        </h2>
+                        <div class="flex justify-between items-center text-gray-600 mb-4 pb-4 border-b">
+                            <span><i class="fas fa-calendar-alt mr-2 text-gray-400"></i>Năm @car.Year</span>
+                            <span><i class="fas fa-warehouse mr-2 text-gray-400"></i>SL: @car.Stock</span>
+                        </div>
+                        <p class="text-gray-700 mb-6 h-20 overflow-hidden leading-relaxed text-sm">
+                            @(car.Description?.Substring(0, Math.Min(car.Description.Length, 100)) ?? "Chưa có mô tả.")...
+                        </p>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-3xl font-extrabold text-blue-600">@car.Price.ToString("C0")</span>
+                        </div>
+                        <a asp-page="./Details" asp-route-id="@car.CarId" class="block w-full text-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition-all duration-300 shadow-md hover:shadow-xl">
+                            <i class="fas fa-info-circle mr-2"></i>Xem Chi Tiết
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-16 bg-white rounded-xl shadow-md">
+            <i class="fas fa-car-side fa-4x text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-semibold text-gray-700">Hiện chưa có xe nào.</h2>
+            <p class="text-gray-500 mt-2">Vui lòng quay lại sau để xem bộ sưu tập của chúng tôi.</p>
+        </div>
+    }
+</div>

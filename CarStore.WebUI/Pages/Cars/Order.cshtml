@@ -1,0 +1,58 @@
+@page "{id:int}"
+@model CarStore.WebUI.Pages.Cars.OrderModel
+@{
+    ViewData["Title"] = "Confirm Your Order";
+}
+
+<div class="max-w-4xl mx-auto animate__animated animate__fadeIn">
+    <div class="bg-white rounded-lg shadow-xl p-6 md:p-10">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-800">Confirm Your Order</h1>
+            <p class="text-gray-600">You're just one step away from owning your new car.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <!-- Car Info -->
+            <div class="bg-gray-50 p-6 rounded-lg border">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">@Model.Car.Brand @Model.Car.Model</h2>
+                <img src="@(Model.Car.ImageUrl ?? "https://via.placeholder.com/400x250")" alt="Image of @Model.Car.Brand @Model.Car.Model" class="w-full h-auto object-cover rounded-md shadow-sm mb-4">
+                <div class="flex justify-between items-center text-lg">
+                    <span class="text-gray-600">Price per unit:</span>
+                    <span class="font-semibold text-blue-600">@Model.Car.Price.ToString("C0")</span>
+                </div>
+            </div>
+
+            <!-- Order Form -->
+            <div>
+                <form method="post" class="space-y-6">
+                    <div asp-validation-summary="ModelOnly" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert"></div>
+                    
+                    <!-- The hidden input for CarId is no longer needed as we get it from the route -->
+
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-700">Order Summary</h3>
+                        <p class="mt-2 text-gray-600">You are about to place an order for one unit of the <strong>@Model.Car.Brand @Model.Car.Model</strong>.</p>
+                        <div class="mt-4 pt-4 border-t flex justify-between items-center">
+                            <span class="text-gray-800 font-bold text-xl">Total:</span>
+                            <span class="text-blue-600 font-extrabold text-2xl">@Model.Car.Price.ToString("C0")</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Clicking "Confirm Purchase" will finalize your order.</p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4 pt-4">
+                        <button type="submit" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                           <i class="fas fa-check-circle mr-2"></i> Confirm Purchase
+                        </button>
+                        <a asp-page="./Details" asp-route-id="@Model.Car.CarId" class="flex-1 text-center bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-lg transition duration-300">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

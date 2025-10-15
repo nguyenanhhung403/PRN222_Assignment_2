@@ -1,0 +1,11 @@
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\bin\Debug\net9.0\CarStore.BO.deps.json
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\bin\Debug\net9.0\CarStore.BO.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\bin\Debug\net9.0\CarStore.BO.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.GeneratedMSBuildEditorConfig.editorconfig
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.AssemblyInfoInputs.cache
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.AssemblyInfo.cs
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.csproj.CoreCompileInputs.cache
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\refint\CarStore.BO.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\CarStore.BO.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BO\obj\Debug\net9.0\ref\CarStore.BO.dll

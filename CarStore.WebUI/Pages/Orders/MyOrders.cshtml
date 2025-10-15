@@ -1,0 +1,138 @@
+@page
+@model CarStore.WebUI.Pages.Orders.MyOrdersModel
+@{
+    ViewData["Title"] = "Đơn Hàng Của Tôi";
+}
+
+<div class="animate__animated animate__fadeIn">
+    <!-- Breadcrumb -->
+    <nav class="flex mb-6 text-sm">
+        <a asp-page="/Index" class="text-blue-600 hover:underline">Trang Chủ</a>
+        <span class="mx-2 text-gray-400">/</span>
+        <span class="text-gray-600">Đơn Hàng Của Tôi</span>
+    </nav>
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl shadow-xl p-8 mb-10 text-white">
+        <div class="flex items-center justify-between flex-wrap gap-4">
+            <div>
+                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">
+                    <i class="fas fa-receipt mr-3"></i>@ViewData["Title"]
+                </h1>
+                <p class="text-blue-100">Theo dõi và quản lý các đơn hàng của bạn</p>
+            </div>
+            <div class="bg-white bg-opacity-20 rounded-xl px-6 py-4 backdrop-blur-sm">
+                <p class="text-sm text-blue-100 mb-1">Tổng đơn hàng</p>
+                <p class="text-3xl font-bold">@Model.Orders.Count()</p>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Orders.Any())
+    {
+        <!-- Filter Tabs -->
+        <div class="mb-8" x-data="{ filter: 'all' }">
+            <div class="flex flex-wrap gap-3 mb-6">
+                <button @@click="filter = 'all'" :class="filter === 'all' ? 'bg-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
+                    <i class="fas fa-list mr-2"></i>Tất cả (@Model.Orders.Count())
+                </button>
+                <button @@click="filter = 'Pending'" :class="filter === 'Pending' ? 'bg-yellow-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
+                    <i class="fas fa-clock mr-2"></i>Chờ xử lý (@Model.Orders.Count(o => o.Status == "Pending"))
+                </button>
+                <button @@click="filter = 'Completed'" :class="filter === 'Completed' ? 'bg-green-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
+                    <i class="fas fa-check-circle mr-2"></i>Hoàn thành (@Model.Orders.Count(o => o.Status == "Completed"))
+                </button>
+                <button @@click="filter = 'Canceled'" :class="filter === 'Canceled' ? 'bg-red-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
+                    <i class="fas fa-times-circle mr-2"></i>Đã hủy (@Model.Orders.Count(o => o.Status == "Canceled"))
+                </button>
+            </div>
+
+            <!-- Orders Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                @foreach (var order in Model.Orders)
+                {
+                    <div x-show="filter === 'all' || filter === '@order.Status'" 
+                         x-transition
+                         class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="relative">
+                            <img src="@(order.Car.ImageUrl ?? "https://via.placeholder.com/400x250")" alt="Image of @order.Car.Brand @order.Car.Model" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 right-4">
+                                @{
+                                    var statusBadge = "bg-gray-500";
+                                    var statusIcon = "fa-circle";
+                                    var statusText = order.Status;
+                                    if (order.Status == "Completed")
+                                    {
+                                        statusBadge = "bg-green-500";
+                                        statusIcon = "fa-check-circle";
+                                        statusText = "Hoàn thành";
+                                    }
+                                    if (order.Status == "Canceled")
+                                    {
+                                        statusBadge = "bg-red-500";
+                                        statusIcon = "fa-times-circle";
+                                        statusText = "Đã hủy";
+                                    }
+                                    if (order.Status == "Pending")
+                                    {
+                                        statusBadge = "bg-yellow-500";
+                                        statusIcon = "fa-clock";
+                                        statusText = "Chờ xử lý";
+                                    }
+                                }
+                                <span class="@statusBadge text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center">
+                                    <i class="fas @statusIcon mr-2"></i>@statusText
+                                </span>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-800 mb-4">@order.Car.Brand @order.Car.Model</h3>
+                            
+                            <div class="space-y-3 mb-6">
+                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                    <span class="text-gray-600 flex items-center">
+                                        <i class="fas fa-hashtag w-6 text-blue-600"></i>Mã đơn hàng
+                                    </span>
+                                    <span class="font-bold text-gray-800">#@order.OrderId</span>
+                                </div>
+                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                    <span class="text-gray-600 flex items-center">
+                                        <i class="fas fa-calendar-alt w-6 text-blue-600"></i>Ngày đặt
+                                    </span>
+                                    <span class="font-semibold text-gray-800">@order.OrderDate?.ToString("dd/MM/yyyy HH:mm")</span>
+                                </div>
+                                <div class="flex items-center justify-between py-2 border-b border-gray-100">
+                                    <span class="text-gray-600 flex items-center">
+                                        <i class="fas fa-box w-6 text-blue-600"></i>Số lượng
+                                    </span>
+                                    <span class="font-semibold text-gray-800">@order.Quantity xe</span>
+                                </div>
+                                <div class="flex items-center justify-between py-3 bg-blue-50 rounded-lg px-4 mt-2">
+                                    <span class="text-gray-800 font-bold flex items-center">
+                                        <i class="fas fa-money-bill-wave w-6 text-green-600"></i>Tổng tiền
+                                    </span>
+                                    <span class="font-extrabold text-2xl text-blue-600">@order.TotalAmount.ToString("C0")</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="bg-white rounded-2xl shadow-xl p-16 text-center">
+            <div class="bg-gray-100 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-receipt fa-4x text-gray-300"></i>
+            </div>
+            <h2 class="text-3xl font-bold text-gray-800 mb-3">Chưa có đơn hàng nào</h2>
+            <p class="text-gray-600 mb-8 text-lg">
+                Khám phá bộ sưu tập xe của chúng tôi và tìm chiếc xe mơ ước của bạn!
+            </p>
+            <a asp-page="/Cars/Index" class="inline-flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                <i class="fas fa-car mr-2"></i>Xem Bộ Sưu Tập Xe
+            </a>
+        </div>
+    }
+</div>

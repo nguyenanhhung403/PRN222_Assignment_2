@@ -1,0 +1,17 @@
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.BLL.deps.json
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.BLL.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.BLL.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.BO.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.DAL.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.DAL.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\bin\Debug\net9.0\CarStore.BO.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.csproj.AssemblyReference.cache
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.GeneratedMSBuildEditorConfig.editorconfig
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.AssemblyInfoInputs.cache
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.AssemblyInfo.cs
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.csproj.CoreCompileInputs.cache
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.FF25461D.Up2Date
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\refint\CarStore.BLL.dll
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\CarStore.BLL.pdb
+E:\PRN222\PRN222_Assignment_2\CarStore.BLL\obj\Debug\net9.0\ref\CarStore.BLL.dll

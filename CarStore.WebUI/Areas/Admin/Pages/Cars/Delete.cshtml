@@ -1,0 +1,97 @@
+@page "{id:int}"
+@model CarStore.WebUI.Areas.Admin.Pages.Cars.DeleteModel
+@{
+    ViewData["Title"] = "Xóa Xe";
+}
+
+<div class="animate__animated animate__fadeIn">
+    <div class="mb-6">
+        <a asp-page="./Index" class="inline-flex items-center text-purple-600 hover:text-purple-800 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-xl overflow-hidden">
+        <!-- Warning Header -->
+        <div class="bg-gradient-to-r from-red-600 to-pink-600 px-8 py-6">
+            <div class="text-center">
+                <i class="fas fa-exclamation-triangle text-6xl text-white mb-4 animate__animated animate__headShake"></i>
+                <h1 class="text-3xl font-bold text-white">Xác Nhận Xóa</h1>
+                <p class="text-red-100 mt-2">Bạn có chắc chắn muốn xóa xe này không?</p>
+            </div>
+        </div>
+
+        <!-- Car Details -->
+        <div class="p-8">
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-6 rounded">
+                <p class="text-red-700">
+                    <i class="fas fa-exclamation-circle mr-2"></i>
+                    <strong>Cảnh báo:</strong> Hành động này không thể hoàn tác. Tất cả dữ liệu liên quan đến xe này sẽ bị xóa vĩnh viễn.
+                </p>
+            </div>
+
+            <div class="bg-gray-50 rounded-xl p-6 mb-6">
+                <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fas fa-car text-red-600 mr-2"></i>Thông Tin Xe Sẽ Bị Xóa
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="flex items-start">
+                        <i class="fas fa-tag text-gray-400 mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Hãng xe</p>
+                            <p class="font-semibold text-gray-800">@Model.Car.Brand</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-car text-gray-400 mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Dòng xe</p>
+                            <p class="font-semibold text-gray-800">@Model.Car.Model</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-calendar text-gray-400 mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Năm sản xuất</p>
+                            <p class="font-semibold text-gray-800">@Model.Car.Year</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-dollar-sign text-gray-400 mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Giá bán</p>
+                            <p class="font-bold text-red-600">@Model.Car.Price.ToString("C0")</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start">
+                        <i class="fas fa-boxes text-gray-400 mt-1 mr-3"></i>
+                        <div>
+                            <p class="text-sm text-gray-500">Tồn kho</p>
+                            <p class="font-semibold text-gray-800">@Model.Car.Stock chiếc</p>
+                        </div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.Car.Description))
+                {
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <p class="text-sm text-gray-500 mb-2"><i class="fas fa-align-left mr-2"></i>Mô tả</p>
+                        <p class="text-gray-700 italic">@Model.Car.Description</p>
+                    </div>
+                }
+            </div>
+            
+            <form method="post">
+                <input type="hidden" asp-for="Car.CarId" />
+                <div class="flex items-center justify-end gap-4 pt-6 border-t">
+                    <a asp-page="./Index" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg transition duration-300">
+                        <i class="fas fa-times mr-2"></i>Hủy
+                    </a>
+                    <button type="submit" class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        <i class="fas fa-trash-alt mr-2"></i>Xác Nhận Xóa
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

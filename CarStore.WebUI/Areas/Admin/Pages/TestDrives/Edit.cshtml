@@ -1,0 +1,103 @@
+@page "{id:int}"
+@model CarStore.WebUI.Areas.Admin.Pages.TestDrives.EditModel
+@{
+    ViewData["Title"] = "Chỉnh Sửa Lịch Lái Thử";
+}
+
+<div class="animate__animated animate__fadeIn">
+    <div class="mb-6">
+        <a asp-page="./Index" class="inline-flex items-center text-green-600 hover:text-green-800 transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>Quay lại danh sách
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-green-600 to-emerald-600 px-8 py-6">
+            <h1 class="text-2xl font-bold text-white">
+                <i class="fas fa-calendar-edit mr-3"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-green-100 mt-1">Cập nhật trạng thái lịch hẹn #@Model.TestDrive.TestDriveId</p>
+        </div>
+
+        <!-- Form Content -->
+        <div class="p-8">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded"></div>
+                <input type="hidden" asp-for="Input.TestDriveId" />
+                
+                <!-- Test Drive Info -->
+                <div class="bg-gray-50 rounded-xl p-6 mb-8">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center">
+                        <i class="fas fa-info-circle text-green-600 mr-2"></i>Thông Tin Lịch Hẹn
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-user text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Khách hàng</p>
+                                <p class="font-semibold text-gray-800">@Model.TestDrive.User.FullName</p>
+                                <p class="text-xs text-gray-600">@Model.TestDrive.User.Email</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-car text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Xe</p>
+                                <p class="font-semibold text-gray-800">@Model.TestDrive.Car.Brand @Model.TestDrive.Car.Model</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-calendar text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Ngày hẹn</p>
+                                <p class="font-semibold text-gray-800">@Model.TestDrive.ScheduleDate.ToString("dd/MM/yyyy HH:mm")</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-gray-400 mt-1 mr-3"></i>
+                            <div>
+                                <p class="text-sm text-gray-500">Địa điểm</p>
+                                <p class="font-semibold text-gray-800">Nhà Văn hoá Sinh Viên</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.TestDrive.Note))
+                    {
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <p class="text-sm text-gray-500 mb-2"><i class="fas fa-comment mr-2"></i>Ghi chú từ khách hàng</p>
+                            <p class="text-gray-700 italic bg-white p-3 rounded-lg">@Model.TestDrive.Note</p>
+                        </div>
+                    }
+                </div>
+
+                <!-- Status Selection -->
+                <div class="mb-8">
+                    <label asp-for="Input.Status" class="block text-sm font-bold text-gray-700 mb-3">
+                        <i class="fas fa-tasks mr-2 text-green-600"></i>Trạng Thái Lịch Hẹn
+                    </label>
+                    <select asp-for="Input.Status" asp-items="Model.StatusOptions" class="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all text-base font-semibold">
+                    </select>
+                    <span asp-validation-for="Input.Status" class="text-red-600 text-sm mt-1 block"></span>
+                    <div class="mt-3 bg-green-50 border-l-4 border-green-500 p-4 rounded">
+                        <p class="text-sm text-green-700">
+                            <i class="fas fa-lightbulb mr-2"></i>
+                            <strong>Lưu ý:</strong> Cập nhật trạng thái để theo dõi tiến độ lịch hẹn lái thử.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex items-center justify-end gap-4 pt-6 border-t">
+                    <a asp-page="./Index" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold rounded-lg transition duration-300">
+                        <i class="fas fa-times mr-2"></i>Hủy
+                    </a>
+                    <button type="submit" class="px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-lg transition duration-300 shadow-md hover:shadow-lg">
+                        <i class="fas fa-save mr-2"></i>Lưu Thay Đổi
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
