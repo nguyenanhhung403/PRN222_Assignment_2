@@ -75,10 +75,10 @@
                     <th class="px-6 py-4 border-b-2 border-gray-200 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Thao Tác</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="testdrives-table-body">
                 @foreach (var drive in Model.TestDrives)
                 {
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors" data-testdrive-id="@drive.TestDriveId">
                         <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
                             <span class="font-bold text-gray-800">#@drive.TestDriveId</span>
                         </td>
@@ -116,7 +116,7 @@
                                     statusIcon = "fa-clock";
                                 }
                             }
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full @statusClass">
+                            <span class="testdrive-status px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full @statusClass">
                                 <i class="fas @statusIcon mr-1 mt-0.5"></i>@drive.Status
                             </span>
                         </td>
@@ -156,4 +156,66 @@
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Chưa có lịch lái thử nào</h3>
         <p class="text-gray-500">Lịch hẹn sẽ xuất hiện khi khách hàng đăng ký lái thử</p>
     </div>
+}
+
+@section Scripts {
+<script>
+    // Function to add new test drive to the table dynamically
+    window.addTestDriveToTable = function(notification) {
+        const tbody = document.getElementById('testdrives-table-body');
+        if (!tbody) return;
+
+        const newRow = document.createElement('tr');
+        newRow.className = 'hover:bg-gray-50 transition-colors animate__animated animate__fadeIn';
+        newRow.setAttribute('data-testdrive-id', notification.testDriveId);
+
+        newRow.innerHTML = `
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <span class="font-bold text-gray-800">#${notification.testDriveId}</span>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <div>
+                    <p class="text-gray-900 font-semibold">${notification.userName}</p>
+                    <p class="text-gray-600 text-xs">${notification.userName}</p>
+                </div>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 font-semibold">${notification.carBrand} ${notification.carModel}</p>
+                <p class="text-gray-600 text-xs"><i class="fas fa-calendar-alt mr-1"></i>Model year</p>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900">${new Date(notification.scheduleDate).toLocaleDateString('vi-VN')}</p>
+                <p class="text-gray-600 text-xs">${new Date(notification.scheduleDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</p>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <span class="testdrive-status px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    <i class="fas fa-clock mr-1 mt-0.5"></i>${notification.status}
+                </span>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                ${notification.note ? `<p class="text-gray-700 max-w-xs truncate" title="${notification.note}">${notification.note}</p>` : '<span class="text-gray-400 italic text-xs">Không có ghi chú</span>'}
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                <a href="/Admin/TestDrives/Edit/${notification.testDriveId}" class="text-blue-600 hover:text-blue-900 font-semibold hover:underline transition-colors">
+                    <i class="fas fa-edit mr-1"></i>Sửa
+                </a>
+            </td>
+        `;
+
+        // Insert at the top of the table
+        tbody.insertBefore(newRow, tbody.firstChild);
+
+        // Update statistics
+        updateTestDriveStatistics();
+    };
+
+    // Function to update test drive statistics
+    function updateTestDriveStatistics() {
+        const totalTestDrives = document.querySelectorAll('#testdrives-table-body tr').length;
+        const totalElement = document.querySelector('.bg-gradient-to-br.from-blue-500 .text-3xl');
+        if (totalElement) {
+            totalElement.textContent = totalTestDrives;
+        }
+    }
+</script>
 }

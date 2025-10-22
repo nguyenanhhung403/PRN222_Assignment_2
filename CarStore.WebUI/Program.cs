@@ -4,6 +4,7 @@ using CarStore.DAL.Repositories;
 using CarStore.BLL.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Globalization;
+using CarStore.WebUI.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,9 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITestDriveService, TestDriveService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+// Add SignalR
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -66,5 +70,12 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+// Map SignalR Hubs
+app.MapHub<CarStoreHub>("/hubs/carstore");
+app.MapHub<OrderHub>("/hubs/orders");
+app.MapHub<TestDriveHub>("/hubs/testdrives");
+app.MapHub<InventoryHub>("/hubs/inventory");
+app.MapHub<AdminHub>("/hubs/admin");
 
 app.Run();

@@ -75,10 +75,10 @@
                     <th class="px-6 py-4 border-b-2 border-gray-200 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Thao Tác</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="orders-table-body">
                 @foreach (var order in Model.Orders)
                 {
-                    <tr class="hover:bg-gray-50 transition-colors">
+                    <tr class="hover:bg-gray-50 transition-colors" data-order-id="@order.OrderId">
                         <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
                             <span class="font-bold text-gray-800">#@order.OrderId</span>
                         </td>
@@ -115,7 +115,7 @@
                                     statusIcon = "fa-clock";
                                 }
                             }
-                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full @statusClass">
+                            <span class="order-status px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full @statusClass">
                                 <i class="fas @statusIcon mr-1 mt-0.5"></i>@order.Status
                             </span>
                         </td>
@@ -149,4 +149,67 @@
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Chưa có đơn hàng nào</h3>
         <p class="text-gray-500">Đơn hàng sẽ xuất hiện khi khách hàng đặt mua xe</p>
     </div>
+}
+
+@section Scripts {
+<script>
+    // Function to add new order to the table dynamically
+    window.addOrderToTable = function(notification) {
+        const tbody = document.getElementById('orders-table-body');
+        if (!tbody) return;
+
+        const newRow = document.createElement('tr');
+        newRow.className = 'hover:bg-gray-50 transition-colors animate__animated animate__fadeIn';
+        newRow.setAttribute('data-order-id', notification.orderId);
+
+        newRow.innerHTML = `
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <span class="font-bold text-gray-800">#${notification.orderId}</span>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <div>
+                    <p class="text-gray-900 font-semibold">${notification.userName}</p>
+                    <p class="text-gray-600 text-xs">${notification.userName}</p>
+                </div>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900 font-semibold">${notification.carBrand} ${notification.carModel}</p>
+                <p class="text-gray-600 text-xs"><i class="fas fa-box mr-1"></i>SL: ${notification.quantity}</p>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-blue-600 font-bold text-base">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(notification.totalAmount)}</p>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <span class="order-status px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                    <i class="fas fa-clock mr-1 mt-0.5"></i>${notification.status}
+                </span>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm">
+                <p class="text-gray-900">${new Date(notification.orderDate).toLocaleDateString('vi-VN')}</p>
+                <p class="text-gray-600 text-xs">${new Date(notification.orderDate).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}</p>
+            </td>
+            <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm text-right">
+                <a href="/Admin/Orders/Edit/${notification.orderId}" class="text-blue-600 hover:text-blue-900 font-semibold hover:underline transition-colors">
+                    <i class="fas fa-edit mr-1"></i>Sửa
+                </a>
+            </td>
+        `;
+
+        // Insert at the top of the table
+        tbody.insertBefore(newRow, tbody.firstChild);
+
+        // Update statistics
+        updateOrderStatistics();
+    };
+
+    // Function to update order statistics
+    function updateOrderStatistics() {
+        // This is a simple implementation - you might want to fetch updated stats from the server
+        const totalOrders = document.querySelectorAll('#orders-table-body tr').length;
+        const totalElement = document.querySelector('.bg-gradient-to-br.from-blue-500 .text-3xl');
+        if (totalElement) {
+            totalElement.textContent = totalOrders;
+        }
+    }
+</script>
 }

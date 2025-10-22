@@ -9,9 +9,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <style>
       body {
         font-family: 'Inter', sans-serif;
+      }
+      /* Stock update animation */
+      .stock-updated {
+        animation: pulse 1s ease-in-out;
+      }
+      @@keyframes pulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.1); color: #10b981; font-weight: bold; }
+      }
+      /* Toast container positioning */
+      .toast-container {
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        z-index: 9999;
+      }
+      /* Notification badge */
+      .notification-badge {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #ef4444;
+        color: white;
+        border-radius: 50%;
+        padding: 2px 6px;
+        font-size: 0.75rem;
+        font-weight: bold;
       }
     </style>
 </head>
@@ -23,6 +52,15 @@
                     <i class="fas fa-car-side text-3xl"></i>
                     <span>CarStore</span>
                 </a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="relative ml-4">
+                        <button id="notification-button" class="text-white hover:text-blue-200 focus:outline-none relative">
+                            <i class="fas fa-bell text-2xl"></i>
+                            <span id="notification-badge" class="notification-badge" style="display: none;">0</span>
+                        </button>
+                    </div>
+                }
                 <div class="flex items-center">
                     <div class="hidden md:flex items-center space-x-6">
                          <a asp-area="" asp-page="/Index" class="text-white hover:text-blue-200 font-semibold transition-colors">
@@ -107,8 +145,22 @@
         </div>
     </footer>
 
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- SignalR Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@7.0.14/dist/browser/signalr.min.js"></script>
+
+    <!-- SignalR Connection Scripts -->
+    <script src="~/js/signalr-connection.js" asp-append-version="true"></script>
+    <script src="~/js/order-notifications.js" asp-append-version="true"></script>
+    <script src="~/js/testdrive-notifications.js" asp-append-version="true"></script>
+    <script src="~/js/inventory-updates.js" asp-append-version="true"></script>
+    <script src="~/js/admin-dashboard.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

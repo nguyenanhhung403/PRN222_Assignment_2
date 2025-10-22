@@ -62,13 +62,14 @@
             <span class="font-semibold">@Model.Cars.Count()</span> xe có sẵn
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="cars-grid">
             @foreach (var car in Model.Cars)
             {
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden group transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300"
-                     x-show="(priceFilter === 'all' || 
-                              (priceFilter === 'low' && @car.Price < 1000000000) || 
-                              (priceFilter === 'medium' && @car.Price >= 1000000000 && @car.Price < 2000000000) || 
+                     data-car-id="@car.CarId"
+                     x-show="(priceFilter === 'all' ||
+                              (priceFilter === 'low' && @car.Price < 1000000000) ||
+                              (priceFilter === 'medium' && @car.Price >= 1000000000 && @car.Price < 2000000000) ||
                               (priceFilter === 'high' && @car.Price >= 2000000000)) &&
                              (brandFilter === 'all' || brandFilter === '@car.Brand')"
                      x-transition>
@@ -100,7 +101,7 @@
                         </h2>
                         <div class="flex justify-between items-center text-gray-600 mb-4 pb-4 border-b">
                             <span><i class="fas fa-calendar-alt mr-2 text-gray-400"></i>Năm @car.Year</span>
-                            <span><i class="fas fa-warehouse mr-2 text-gray-400"></i>SL: @car.Stock</span>
+                            <span><i class="fas fa-warehouse mr-2 text-gray-400"></i>SL: <span class="car-stock">@car.Stock</span></span>
                         </div>
                         <p class="text-gray-700 mb-6 h-20 overflow-hidden leading-relaxed text-sm">
                             @(car.Description?.Substring(0, Math.Min(car.Description.Length, 100)) ?? "Chưa có mô tả.")...
@@ -125,3 +126,40 @@
         </div>
     }
 </div>
+
+@section Scripts {
+<style>
+    /* CSS for stock update animation is already in _Layout.cshtml */
+</style>
+<script>
+    // Subscribe to inventory updates for all cars on the page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Wait for InventoryUpdates to be initialized
+        setTimeout(function() {
+            if (window.InventoryUpdates && window.InventoryUpdates.connection) {
+                // Subscribe to inventory updates for each car displayed
+                const carCards = document.querySelectorAll('[data-car-id]');
+                carCards.forEach(function(card) {
+                    const carId = parseInt(card.getAttribute('data-car-id'));
+                    if (carId) {
+                        window.InventoryUpdates.subscribeToCarInventory(carId);
+                    }
+                });
+            }
+        }, 1000);
+    });
+
+    // Cleanup subscriptions when leaving the page
+    window.addEventListener('beforeunload', function() {
+        if (window.InventoryUpdates && window.InventoryUpdates.connection) {
+            const carCards = document.querySelectorAll('[data-car-id]');
+            carCards.forEach(function(card) {
+                const carId = parseInt(card.getAttribute('data-car-id'));
+                if (carId) {
+                    window.InventoryUpdates.unsubscribeFromCarInventory(carId);
+                }
+            });
+        }
+    });
+</script>
+}
