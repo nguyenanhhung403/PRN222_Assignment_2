@@ -5,6 +5,7 @@ using CarStore.BLL.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Globalization;
 using CarStore.WebUI.Hubs;
+using CarStore.WebUI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +48,9 @@ builder.Services.AddScoped<ICarService, CarService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITestDriveService, TestDriveService>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// Register SignalR Notification Service
+builder.Services.AddScoped<ISignalRNotificationService, SignalRNotificationService>();
 
 // Add SignalR
 builder.Services.AddSignalR();
