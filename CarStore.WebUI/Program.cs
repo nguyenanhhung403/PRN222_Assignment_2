@@ -49,8 +49,8 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ITestDriveService, TestDriveService>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-// Register SignalR Notification Service
-builder.Services.AddScoped<ISignalRNotificationService, SignalRNotificationService>();
+// Register SignalR Notification Service as Singleton to avoid injection issues
+builder.Services.AddSingleton<ISignalRNotificationService, SignalRNotificationService>();
 
 // Add SignalR
 builder.Services.AddSignalR();
