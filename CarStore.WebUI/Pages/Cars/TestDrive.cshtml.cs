@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Linq;
+using CarStore.WebUI.Services;
 
 namespace CarStore.WebUI.Pages.Cars
 {
@@ -17,12 +18,14 @@ namespace CarStore.WebUI.Pages.Cars
         private readonly ICarService _carService;
         private readonly ITestDriveService _testDriveService;
         private readonly IUserService _userService;
+        private readonly ITestDriveNotificationService _notificationService;
 
-        public TestDriveModel(ICarService carService, ITestDriveService testDriveService, IUserService userService)
+        public TestDriveModel(ICarService carService, ITestDriveService testDriveService, IUserService userService, ITestDriveNotificationService notificationService)
         {
             _carService = carService;
             _testDriveService = testDriveService;
             _userService = userService;
+            _notificationService = notificationService;
         }
 
         [BindProperty]
@@ -64,10 +67,15 @@ namespace CarStore.WebUI.Pages.Cars
                 CarId = Input.CarId,
                 UserId = currentUser.UserId,
                 ScheduleDate = Input.ScheduleDate,
-                Note = Input.Note
+                Note = Input.Note,
+                Status = "Pending"
             };
 
             await _testDriveService.ScheduleTestDriveAsync(testDrive);
+            
+            // Gửi thông báo real-time
+            await _notificationService.NotifyTestDriveScheduledAsync(testDrive);
+            
             return RedirectToPage("/Index"); // Or a success page
         }
     }

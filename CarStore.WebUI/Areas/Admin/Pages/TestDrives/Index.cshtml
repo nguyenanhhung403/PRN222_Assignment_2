@@ -6,10 +6,18 @@
 
 <!-- Page Header -->
 <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-2">
-        <i class="fas fa-calendar-check text-blue-600 mr-2"></i>@ViewData["Title"]
-    </h1>
-    <p class="text-gray-600">Theo dõi và quản lý tất cả lịch lái thử của khách hàng</p>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">
+                <i class="fas fa-calendar-check text-blue-600 mr-2"></i>@ViewData["Title"]
+            </h1>
+            <p class="text-gray-600">Theo dõi và quản lý tất cả lịch lái thử của khách hàng</p>
+        </div>
+        <div id="connection-status" class="flex items-center space-x-2 bg-white px-4 py-2 rounded-lg shadow-sm border">
+            <div id="status-indicator" class="w-3 h-3 rounded-full bg-gray-400"></div>
+            <span id="status-text" class="text-sm text-gray-600">Đang kết nối...</span>
+        </div>
+    </div>
 </div>
 
 <!-- Statistics Cards -->
@@ -131,16 +139,24 @@
                             }
                         </td>
                         <td class="px-6 py-5 border-b border-gray-200 bg-white text-sm text-right">
-                            @if (drive.Status == "Scheduled")
-                            {
+                            <div class="flex items-center space-x-2">
+                                @if (drive.Status == "Pending" || drive.Status == "Scheduled")
+                                {
+                                    <form method="post" asp-page-handler="UpdateStatus" class="inline">
+                                        <input type="hidden" asp-for="UpdateStatus.TestDriveId" value="@drive.TestDriveId" />
+                                        <select asp-for="UpdateStatus.Status" onchange="this.form.submit()" 
+                                                class="text-xs border border-gray-300 rounded px-2 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option value="Pending" selected="@(drive.Status == "Pending")">Pending</option>
+                                            <option value="Confirmed" selected="@(drive.Status == "Confirmed")">Confirmed</option>
+                                            <option value="Completed" selected="@(drive.Status == "Completed")">Completed</option>
+                                            <option value="Cancelled" selected="@(drive.Status == "Cancelled")">Cancelled</option>
+                                        </select>
+                                    </form>
+                                }
                                 <a asp-page="./Edit" asp-route-id="@drive.TestDriveId" class="text-blue-600 hover:text-blue-900 font-semibold hover:underline transition-colors">
                                     <i class="fas fa-edit mr-1"></i>Sửa
                                 </a>
-                            }
-                            else
-                            {
-                                <span class="text-gray-400 text-xs">Không thể sửa</span>
-                            }
+                            </div>
                         </td>
                     </tr>
                 }
@@ -156,4 +172,34 @@
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Chưa có lịch lái thử nào</h3>
         <p class="text-gray-500">Lịch hẹn sẽ xuất hiện khi khách hàng đăng ký lái thử</p>
     </div>
+}
+
+@section Scripts {
+    <script>
+        // Cập nhật trạng thái kết nối
+        function updateConnectionStatus() {
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+            
+            if (typeof testDriveClient !== 'undefined' && testDriveClient) {
+                const state = testDriveClient.getConnectionState();
+                if (state === 'Connected') {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-green-500';
+                    statusText.textContent = 'Đã kết nối';
+                } else if (state === 'Connecting' || state === 'Reconnecting') {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-yellow-500';
+                    statusText.textContent = 'Đang kết nối...';
+                } else {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-red-500';
+                    statusText.textContent = 'Mất kết nối';
+                }
+            }
+        }
+
+        // Cập nhật trạng thái kết nối mỗi 2 giây
+        setInterval(updateConnectionStatus, 2000);
+        
+        // Cập nhật ngay khi trang load
+        document.addEventListener('DOMContentLoaded', updateConnectionStatus);
+    </script>
 }

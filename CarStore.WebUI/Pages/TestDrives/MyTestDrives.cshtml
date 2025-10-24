@@ -4,197 +4,155 @@
     ViewData["Title"] = "Lịch Lái Thử Của Tôi";
 }
 
-<div x-data="{ open: false, testDriveId: null, filter: 'all' }" class="animate__animated animate__fadeIn">
-    <!-- Breadcrumb -->
-    <nav class="flex mb-6 text-sm">
-        <a asp-page="/Index" class="text-blue-600 hover:underline">Trang Chủ</a>
-        <span class="mx-2 text-gray-400">/</span>
-        <span class="text-gray-600">Lịch Lái Thử Của Tôi</span>
-    </nav>
-
-    <!-- Header -->
-    <div class="bg-gradient-to-r from-green-600 to-emerald-600 rounded-2xl shadow-xl p-8 mb-10 text-white">
-        <div class="flex items-center justify-between flex-wrap gap-4">
-            <div>
-                <h1 class="text-3xl md:text-4xl font-extrabold mb-2">
-                    <i class="fas fa-calendar-check mr-3"></i>@ViewData["Title"]
-                </h1>
-                <p class="text-green-100">Quản lý các lịch hẹn lái thử của bạn</p>
-            </div>
-            <div class="bg-white bg-opacity-20 rounded-xl px-6 py-4 backdrop-blur-sm">
-                <p class="text-sm text-green-100 mb-1">Tổng lịch hẹn</p>
-                <p class="text-3xl font-bold">@Model.TestDrives.Count()</p>
+<div class="max-w-6xl mx-auto">
+    <div class="bg-white rounded-lg shadow-lg p-6">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-bold text-gray-900">
+                <i class="fas fa-calendar-check text-blue-600 mr-3"></i>
+                Lịch Lái Thử Của Tôi
+            </h1>
+            <div class="flex items-center space-x-4">
+                <div id="connection-status" class="flex items-center space-x-2">
+                    <div id="status-indicator" class="w-3 h-3 rounded-full bg-gray-400"></div>
+                    <span id="status-text" class="text-sm text-gray-600">Đang kết nối...</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    @if (Model.TestDrives.Any())
-    {
-        <!-- Filter Tabs -->
-        <div class="mb-8">
-            <div class="flex flex-wrap gap-3 mb-6">
-                <button @@click="filter = 'all'" :class="filter === 'all' ? 'bg-green-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
-                    <i class="fas fa-list mr-2"></i>Tất cả (@Model.TestDrives.Count())
-                </button>
-                <button @@click="filter = 'Scheduled'" :class="filter === 'Scheduled' ? 'bg-yellow-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
-                    <i class="fas fa-clock mr-2"></i>Đã lên lịch (@Model.TestDrives.Count(td => td.Status == "Scheduled"))
-                </button>
-                <button @@click="filter = 'Done'" :class="filter === 'Done' ? 'bg-green-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
-                    <i class="fas fa-check-circle mr-2"></i>Đã hoàn thành (@Model.TestDrives.Count(td => td.Status == "Done"))
-                </button>
-                <button @@click="filter = 'Canceled'" :class="filter === 'Canceled' ? 'bg-red-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-50'" class="px-6 py-2 rounded-lg font-semibold transition-all shadow-md">
-                    <i class="fas fa-ban mr-2"></i>Đã hủy (@Model.TestDrives.Count(td => td.Status == "Canceled"))
-                </button>
-            </div>
-
-            <!-- Test Drives Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @foreach (var drive in Model.TestDrives)
+        @if (Model.TestDrives?.Any() == true)
+        {
+            <div class="grid gap-6">
+                @foreach (var testDrive in Model.TestDrives)
                 {
-                    <div x-show="filter === 'all' || filter === '@drive.Status'" 
-                         x-transition
-                         class="bg-white rounded-2xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="relative">
-                            <img src="@(drive.Car.ImageUrl ?? "https://via.placeholder.com/400x250")" alt="Image of @drive.Car.Brand @drive.Car.Model" class="w-full h-48 object-cover">
-                            <div class="absolute top-4 right-4">
-                                @{
-                                    var statusBadge = "bg-gray-500";
-                                    var statusIcon = "fa-circle";
-                                    var statusText = drive.Status;
-                                    if (drive.Status == "Done")
-                                    {
-                                        statusBadge = "bg-green-500";
-                                        statusIcon = "fa-check-circle";
-                                        statusText = "Đã hoàn thành";
-                                    }
-                                    if (drive.Status == "Canceled")
-                                    {
-                                        statusBadge = "bg-red-500";
-                                        statusIcon = "fa-ban";
-                                        statusText = "Đã hủy";
-                                    }
-                                    if (drive.Status == "Scheduled")
-                                    {
-                                        statusBadge = "bg-yellow-500";
-                                        statusIcon = "fa-clock";
-                                        statusText = "Đã lên lịch";
-                                    }
-                                }
-                                <span class="@statusBadge text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center">
-                                    <i class="fas @statusIcon mr-2"></i>@statusText
-                                </span>
-                            </div>
-                        </div>
-                        <div class="p-6 flex-grow">
-                            <h3 class="text-xl font-bold text-gray-800 mb-4">@drive.Car.Brand @drive.Car.Model</h3>
-                            
-                            <div class="space-y-3">
-                                <div class="flex items-center py-2 border-b border-gray-100">
-                                    <i class="fas fa-calendar-alt w-6 text-green-600"></i>
-                                    <div class="flex-1">
-                                        <p class="text-xs text-gray-500">Ngày hẹn</p>
-                                        <p class="font-bold text-gray-800">@drive.ScheduleDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-4 mb-3">
+                                    <h3 class="text-xl font-semibold text-gray-900">
+                                        @testDrive.Car.Brand @testDrive.Car.Model
+                                    </h3>
+                                    <span class="px-3 py-1 text-sm font-medium rounded-full
+                                        @(testDrive.Status == "Confirmed" ? "bg-green-100 text-green-800" :
+                                          testDrive.Status == "Pending" ? "bg-yellow-100 text-yellow-800" :
+                                          testDrive.Status == "Cancelled" ? "bg-red-100 text-red-800" :
+                                          "bg-gray-100 text-gray-800")">
+                                        @testDrive.Status
+                                    </span>
+                                </div>
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar-alt text-blue-500 mr-2"></i>
+                                        <span>Ngày: @testDrive.ScheduleDate.ToString("dd/MM/yyyy HH:mm")</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-car text-green-500 mr-2"></i>
+                                        <span>Năm: @testDrive.Car.Year</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-dollar-sign text-purple-500 mr-2"></i>
+                                        <span>Giá: @testDrive.Car.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</span>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <i class="fas fa-id-badge text-orange-500 mr-2"></i>
+                                        <span>ID: #@testDrive.TestDriveId</span>
                                     </div>
                                 </div>
-                                <div class="flex items-center py-2 border-b border-gray-100">
-                                    <i class="fas fa-map-marker-alt w-6 text-red-600"></i>
-                                    <div class="flex-1">
-                                        <p class="text-xs text-gray-500">Địa điểm</p>
-                                        <p class="font-semibold text-gray-800">Nhà Văn hoá Sinh Viên</p>
-                                    </div>
-                                </div>
-                                @if (!string.IsNullOrEmpty(drive.Note))
+
+                                @if (!string.IsNullOrEmpty(testDrive.Note))
                                 {
-                                    <div class="bg-gray-50 rounded-lg p-3 mt-2">
-                                        <p class="text-xs text-gray-500 mb-1"><i class="fas fa-comment mr-1"></i>Ghi chú</p>
-                                        <p class="text-sm text-gray-700 italic">@drive.Note</p>
+                                    <div class="mt-3 p-3 bg-gray-50 rounded-md">
+                                        <p class="text-sm text-gray-700">
+                                            <i class="fas fa-sticky-note text-gray-500 mr-2"></i>
+                                            <strong>Ghi chú:</strong> @testDrive.Note
+                                        </p>
                                     </div>
                                 }
                             </div>
-                        </div>
-                        <div class="p-4 bg-gray-50 border-t">
-                            @if (drive.Status == "Scheduled")
-                            {
-                                <button @@click="open = true; testDriveId = @drive.TestDriveId" class="w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg">
-                                    <i class="fas fa-times-circle mr-2"></i>Hủy Lịch Hẹn
-                                </button>
-                            }
-                            else if (drive.Status == "Done")
-                            {
-                                <div class="text-center text-green-600 font-semibold py-2">
-                                    <i class="fas fa-check-circle mr-2"></i>Đã hoàn thành lái thử
-                                </div>
-                            }
-                            else
-                            {
-                                <div class="text-center text-gray-500 py-2">
-                                    <i class="fas fa-ban mr-2"></i>Lịch hẹn đã bị hủy
-                                </div>
-                            }
+                            
+                            <div class="flex flex-col space-y-2 ml-4">
+                                <a asp-page="/Cars/Details" asp-route-id="@testDrive.CarId" 
+                                   class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors text-sm">
+                                    <i class="fas fa-eye mr-1"></i> Xem Xe
+                                </a>
+                                @if (testDrive.Status == "Pending")
+                                {
+                                    <button onclick="cancelTestDrive(@testDrive.TestDriveId)" 
+                                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm">
+                                        <i class="fas fa-times mr-1"></i> Hủy Lịch
+                                    </button>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
             </div>
-        </div>
-    }
-    else
-    {
-        <div class="bg-white rounded-2xl shadow-xl p-16 text-center">
-            <div class="bg-gray-100 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i class="fas fa-calendar-check fa-4x text-gray-300"></i>
+        }
+        else
+        {
+            <div class="text-center py-12">
+                <i class="fas fa-calendar-times text-6xl text-gray-300 mb-4"></i>
+                <h3 class="text-xl font-semibold text-gray-600 mb-2">Chưa có lịch lái thử nào</h3>
+                <p class="text-gray-500 mb-6">Bạn chưa đặt lịch lái thử nào. Hãy khám phá bộ sưu tập xe của chúng tôi!</p>
+                <a asp-page="/Cars/Index" class="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                    <i class="fas fa-car mr-2"></i>
+                    Khám Phá Xe
+                </a>
             </div>
-            <h2 class="text-3xl font-bold text-gray-800 mb-3">Chưa có lịch lái thử nào</h2>
-            <p class="text-gray-600 mb-8 text-lg">
-                Quan tâm đến một chiếc xe nào đó? Đăng ký lái thử ngay!
-            </p>
-            <a asp-page="/Cars/Index" class="inline-flex items-center bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                <i class="fas fa-car mr-2"></i>Xem Bộ Sưu Tập Xe
-            </a>
-        </div>
-    }
-
-    <!-- Cancellation Modal -->
-    <div x-show="open" class="fixed z-50 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true" style="display: none;">
-        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div x-show="open" 
-                 x-transition:enter="ease-out duration-300" 
-                 x-transition:enter-start="opacity-0" 
-                 x-transition:enter-end="opacity-100" 
-                 class="fixed inset-0 bg-black bg-opacity-50 transition-opacity backdrop-blur-sm" 
-                 aria-hidden="true"></div>
-
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-
-            <div x-show="open" 
-                 x-transition:enter="ease-out duration-300" 
-                 x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" 
-                 x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" 
-                 class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-                <form method="post" asp-page-handler="Cancel">
-                    <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
-                        <h3 class="text-xl font-bold text-white flex items-center" id="modal-title">
-                            <i class="fas fa-exclamation-triangle mr-3"></i>Hủy Lịch Lái Thử
-                        </h3>
-                    </div>
-                    <div class="bg-white px-6 py-6">
-                        <p class="text-gray-600 mb-4">Vui lòng cho chúng tôi biết lý do bạn muốn hủy lịch hẹn này:</p>
-                        <input type="hidden" asp-for="Input.TestDriveId" x-bind:value="testDriveId" />
-                        <label asp-for="Input.Note" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-comment mr-2 text-blue-600"></i>Lý do hủy
-                        </label>
-                        <textarea asp-for="Input.Note" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all outline-none" placeholder="Ví dụ: Có việc đột xuất, cần thay đổi thời gian..."></textarea>
-                        <span asp-validation-for="Input.Note" class="text-red-600 text-sm block mt-1"></span>
-                    </div>
-                    <div class="bg-gray-50 px-6 py-4 flex flex-col sm:flex-row-reverse gap-3">
-                        <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 focus:outline-none transition-all shadow-md hover:shadow-lg">
-                            <i class="fas fa-check mr-2"></i>Xác Nhận Hủy
-                        </button>
-                        <button @@click="open = false" type="button" class="w-full sm:w-auto inline-flex justify-center items-center px-6 py-3 bg-white border-2 border-gray-300 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 focus:outline-none transition-all">
-                            <i class="fas fa-arrow-left mr-2"></i>Quay Lại
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+        }
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        // Cập nhật trạng thái kết nối
+        function updateConnectionStatus() {
+            const statusIndicator = document.getElementById('status-indicator');
+            const statusText = document.getElementById('status-text');
+            
+            if (typeof testDriveClient !== 'undefined' && testDriveClient) {
+                const state = testDriveClient.getConnectionState();
+                if (state === 'Connected') {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-green-500';
+                    statusText.textContent = 'Đã kết nối';
+                } else if (state === 'Connecting' || state === 'Reconnecting') {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-yellow-500';
+                    statusText.textContent = 'Đang kết nối...';
+                } else {
+                    statusIndicator.className = 'w-3 h-3 rounded-full bg-red-500';
+                    statusText.textContent = 'Mất kết nối';
+                }
+            }
+        }
+
+        // Hàm hủy lịch lái thử
+        function cancelTestDrive(testDriveId) {
+            if (confirm('Bạn có chắc chắn muốn hủy lịch lái thử này?')) {
+                // Gửi request hủy lịch
+                fetch(`/TestDrives/Cancel/${testDriveId}`, {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        location.reload();
+                    } else {
+                        alert('Có lỗi xảy ra khi hủy lịch lái thử');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi hủy lịch lái thử');
+                });
+            }
+        }
+
+        // Cập nhật trạng thái kết nối mỗi 2 giây
+        setInterval(updateConnectionStatus, 2000);
+        
+        // Cập nhật ngay khi trang load
+        document.addEventListener('DOMContentLoaded', updateConnectionStatus);
+    </script>
+}
