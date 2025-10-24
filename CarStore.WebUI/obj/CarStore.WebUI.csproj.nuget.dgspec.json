@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\PRN222\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj": {}
+    "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj": {}
   },
   "projects": {
-    "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj": {
+    "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj",
+        "projectUniqueName": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj",
         "projectName": "CarStore.BLL",
-        "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\obj\\",
+        "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj",
+        "packagesPath": "C:\\Users\\giaba\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\giaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,14 +26,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj": {
-                "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj"
+              "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj": {
+                "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj"
               }
             }
           }
@@ -69,24 +70,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj": {
+    "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj",
+        "projectUniqueName": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj",
         "projectName": "CarStore.BO",
-        "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\obj\\",
+        "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj",
+        "packagesPath": "C:\\Users\\giaba\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\giaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -95,6 +96,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -134,24 +136,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj": {
+    "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj",
+        "projectUniqueName": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj",
         "projectName": "CarStore.DAL",
-        "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.DAL\\obj\\",
+        "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\CarStore.DAL.csproj",
+        "packagesPath": "C:\\Users\\giaba\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.DAL\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\giaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -160,14 +162,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj": {
-                "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj"
+              "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj": {
+                "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BO\\CarStore.BO.csproj"
               }
             }
           }
@@ -221,24 +224,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\PRN222\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj": {
+    "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj",
+        "projectUniqueName": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj",
         "projectName": "CarStore.WebUI",
-        "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj",
-        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
-        "outputPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.WebUI\\obj\\",
+        "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.WebUI\\CarStore.WebUI.csproj",
+        "packagesPath": "C:\\Users\\giaba\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.WebUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\giaba\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -247,14 +250,15 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj": {
-                "projectPath": "E:\\PRN222\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj"
+              "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj": {
+                "projectPath": "C:\\Users\\giaba\\Downloads\\PRN222_Assignment_2\\PRN222_Assignment_2\\CarStore.BLL\\CarStore.BLL.csproj"
               }
             }
           }
@@ -274,6 +278,12 @@
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -293,7 +303,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

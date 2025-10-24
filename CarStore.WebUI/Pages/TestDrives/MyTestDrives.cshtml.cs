@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using CarStore.WebUI.Services;
 
 namespace CarStore.WebUI.Pages.TestDrives
 {
@@ -16,11 +17,13 @@ namespace CarStore.WebUI.Pages.TestDrives
     {
         private readonly ITestDriveService _testDriveService;
         private readonly IUserService _userService;
+        private readonly ITestDriveNotificationService _notificationService;
 
-        public MyTestDrivesModel(ITestDriveService testDriveService, IUserService userService)
+        public MyTestDrivesModel(ITestDriveService testDriveService, IUserService userService, ITestDriveNotificationService notificationService)
         {
             _testDriveService = testDriveService;
             _userService = userService;
+            _notificationService = notificationService;
         }
 
         public IEnumerable<TestDrive> TestDrives { get; set; } = new List<TestDrive>();
@@ -74,11 +77,14 @@ namespace CarStore.WebUI.Pages.TestDrives
                 return NotFound();
             }
             
-            if (testDrive.Status == "Scheduled")
+            if (testDrive.Status == "Pending" || testDrive.Status == "Scheduled")
             {
-                testDrive.Status = "Canceled";
+                testDrive.Status = "Cancelled";
                 testDrive.Note = Input.Note;
                 await _testDriveService.UpdateTestDriveAsync(testDrive);
+                
+                // Gửi thông báo real-time
+                await _notificationService.NotifyTestDriveCancelledAsync(testDrive.TestDriveId, testDrive.UserId);
             }
 
             return RedirectToPage();
